@@ -44,4 +44,15 @@ export class UserService {
       };
     });
   }
+  async findByFields(
+    where: Partial<User>,
+  ): Promise<Pick<User, 'id' | 'name' | 'email'>[]> {
+    const users = await this.usersRepository.find({ where });
+
+    return users.map((user) => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    }));
+  }
 }

@@ -16,7 +16,7 @@ export class UserController {
   @Get('find')
   async findUser(
     @Query() query: FindUserQueryDto,
-  ): Promise<Omit<User, 'password' | 'createdAt' | 'updatedAt'>[]> {
+  ): Promise<Omit<User, 'password' | 'createdAt' | 'updatedAt'>[] | null> {
     const { email, id } = query;
     const where: Partial<User> = {};
 
@@ -24,6 +24,6 @@ export class UserController {
     if (id) where.id = id;
 
     if (Object.keys(where).length === 0) return this.userService.findAll();
-    return this.userService.findAll();
+    return this.userService.findByFields(where);
   }
 }
