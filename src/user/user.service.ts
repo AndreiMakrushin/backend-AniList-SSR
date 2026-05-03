@@ -55,4 +55,8 @@ export class UserService {
       email: user.email,
     }));
   }
+
+  async findById(id: number): Promise<User | null> {
+    return this.usersRepository.findOneBy({ id });
+  }
 }
