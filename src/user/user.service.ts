@@ -31,7 +31,17 @@ export class UserService {
     return this.usersRepository.save(user);
   }
 
-  async findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  async findAll(
+    where: Partial<User> = {},
+  ): Promise<Omit<User, 'password' | 'createdAt' | 'updatedAt'>[]> {
+    const users = await this.usersRepository.find({ where });
+
+    return users.map((user) => {
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      };
+    });
   }
 }

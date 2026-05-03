@@ -14,7 +14,9 @@ export class UserController {
   }
 
   @Get('find')
-  async findUser(@Query() query: FindUserQueryDto): Promise<User[]> {
+  async findUser(
+    @Query() query: FindUserQueryDto,
+  ): Promise<Omit<User, 'password' | 'createdAt' | 'updatedAt'>[]> {
     const { email, id } = query;
     const where: Partial<User> = {};
 
