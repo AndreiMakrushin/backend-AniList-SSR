@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { writeFileSync } from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 1. Включаем CORS (важно для запросов с фронта)
   app.enableCors({
     origin: ['http://localhost:3000', 'http://localhost:3001'], // адреса твоего Nuxt
     credentials: true,
@@ -13,21 +13,17 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
-  // 2. (Опционально) Добавляем глобальный префикс к API
-  // app.setGlobalPrefix('api');
-
-  // 3. Настройка Swagger
   const config = new DocumentBuilder()
     .setTitle('AniList API')
     .setDescription('Документация для аниме')
     .setVersion('1.0')
-    .addBearerAuth() // если будешь использовать JWT
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document); // путь к документации
+  writeFileSync('./swagger.json', JSON.stringify(document, null, 2));
+  SwaggerModule.setup('api-docs', app, document);
 
-  // 4. Порт из переменных окружения или по умолчанию 3001
   const port = process.env.PORT || 3001;
 
   await app.listen(port, '0.0.0.0', () => {

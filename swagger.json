@@ -1,0 +1,304 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/user/find": {
+      "get": {
+        "operationId": "UserController_findUser",
+        "parameters": [
+          {
+            "name": "email",
+            "required": false,
+            "in": "query",
+            "description": "Email",
+            "schema": {
+              "example": "",
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": false,
+            "in": "query",
+            "description": "ID пользователя",
+            "schema": {
+              "example": null,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/anime/catalog/releases": {
+      "get": {
+        "operationId": "AnimeController_getReleases",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "genres",
+            "required": false,
+            "in": "query",
+            "description": "ID жанров (через запятую)",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnimeReleasesResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Получить релизы аниме",
+        "tags": [
+          "Anime - сторонняя библиотека"
+        ]
+      }
+    },
+    "/anime/search": {
+      "get": {
+        "operationId": "AnimeController_search",
+        "parameters": [
+          {
+            "name": "q",
+            "required": true,
+            "in": "query",
+            "description": "Поисковый запрос",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Поиск аниме",
+        "tags": [
+          "Anime - сторонняя библиотека"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "AniList API",
+    "description": "Документация для аниме",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "UserCreateDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "name",
+            "description": "Имя пользователя"
+          },
+          "email": {
+            "type": "string",
+            "example": "email",
+            "description": "Email пользователя"
+          },
+          "password": {
+            "type": "string",
+            "example": "password",
+            "description": "Пароль пользователя"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password"
+        ]
+      },
+      "UserLoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "email",
+            "description": "Email пользователя"
+          },
+          "password": {
+            "type": "string",
+            "example": "password",
+            "description": "Пароль пользователя"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "PaginationLinks": {
+        "type": "object",
+        "properties": {
+          "previous": {
+            "type": "object"
+          },
+          "next": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "previous",
+          "next"
+        ]
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number"
+          },
+          "count": {
+            "type": "number"
+          },
+          "per_page": {
+            "type": "number"
+          },
+          "current_page": {
+            "type": "number"
+          },
+          "total_pages": {
+            "type": "number"
+          },
+          "links": {
+            "$ref": "#/components/schemas/PaginationLinks"
+          }
+        },
+        "required": [
+          "total",
+          "count",
+          "per_page",
+          "current_page",
+          "total_pages",
+          "links"
+        ]
+      },
+      "AnimeMeta": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "required": [
+          "pagination"
+        ]
+      },
+      "AnimeReleasesResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "array"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/AnimeMeta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      }
+    }
+  }
+}
