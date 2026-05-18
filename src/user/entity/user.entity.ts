@@ -19,6 +19,8 @@ export class User {
 
   @Column()
   password!: string;
+  @Column({ default: false })
+  isBanned!: boolean;
 
   @CreateDateColumn()
   createdAt!: Date;

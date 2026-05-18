@@ -12,7 +12,7 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async create(userCreateDto: UserCreateDto): Promise<User> {
+  async create(userCreateDto: UserCreateDto) {
     const emailExists = await this.usersRepository.existsBy({
       email: userCreateDto.email,
     });
@@ -28,7 +28,7 @@ export class UserService {
       password: hashedPassword,
     });
 
-    return this.usersRepository.save(user);
+    await this.usersRepository.save(user);
   }
 
   async findAll(
@@ -41,22 +41,28 @@ export class UserService {
         id: user.id,
         name: user.name,
         email: user.email,
+        isBanned: user.isBanned,
       };
     });
   }
   async findByFields(
     where: Partial<User>,
-  ): Promise<Pick<User, 'id' | 'name' | 'email'>[]> {
+  ): Promise<Pick<User, 'id' | 'name' | 'email' | 'isBanned'>[]> {
     const users = await this.usersRepository.find({ where });
 
     return users.map((user) => ({
       id: user.id,
       name: user.name,
       email: user.email,
+      isBanned: user.isBanned,
     }));
   }
 
   async findById(id: number): Promise<User | null> {
     return this.usersRepository.findOneBy({ id });
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ email });
   }
 }
