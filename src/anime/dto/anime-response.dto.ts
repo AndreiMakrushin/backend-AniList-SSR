@@ -1,15 +1,33 @@
 // dto/anime-response.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
 
-class PaginationLinks {
-  @ApiProperty()
+// 1. Класс для элемента аниме (одна запись в списке релизов)
+export class AnimeReleaseItem {
+  @ApiProperty({ example: 1, description: 'ID аниме' })
+  id!: number;
+
+  @ApiProperty({ example: 'Наруто', description: 'Название аниме' })
+  title!: string;
+
+  @ApiProperty({ example: 'naruto.jpg', description: 'Постер' })
+  poster!: string;
+
+  @ApiProperty({ example: '2024-04-01', description: 'Дата выхода' })
+  release_date!: string;
+
+  // добавь остальные поля, которые приходят из API
+}
+
+// 2. Класс для пагинации
+export class PaginationLinks {
+  @ApiProperty({ nullable: true })
   previous!: string | null;
 
-  @ApiProperty()
+  @ApiProperty({ nullable: true })
   next!: string | null;
 }
 
-class Pagination {
+export class Pagination {
   @ApiProperty()
   total!: number;
 
@@ -29,14 +47,15 @@ class Pagination {
   links!: PaginationLinks;
 }
 
-class AnimeMeta {
+export class AnimeMeta {
   @ApiProperty({ type: Pagination })
   pagination!: Pagination;
 }
 
+// 3. Главный класс ответа
 export class AnimeReleasesResponse {
-  @ApiProperty({ isArray: true })
-  data!: any[]; // или конкретный тип AnimeRelease
+  @ApiProperty({ type: [AnimeReleaseItem] })
+  data!: AnimeReleaseItem[];
 
   @ApiProperty({ type: AnimeMeta })
   meta!: AnimeMeta;

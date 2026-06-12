@@ -224,14 +224,47 @@
           "password"
         ]
       },
+      "AnimeReleaseItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1,
+            "description": "ID аниме"
+          },
+          "title": {
+            "type": "string",
+            "example": "Наруто",
+            "description": "Название аниме"
+          },
+          "poster": {
+            "type": "string",
+            "example": "naruto.jpg",
+            "description": "Постер"
+          },
+          "release_date": {
+            "type": "string",
+            "example": "2024-04-01",
+            "description": "Дата выхода"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "poster",
+          "release_date"
+        ]
+      },
       "PaginationLinks": {
         "type": "object",
         "properties": {
           "previous": {
-            "type": "object"
+            "type": "object",
+            "nullable": true
           },
           "next": {
-            "type": "object"
+            "type": "object",
+            "nullable": true
           }
         },
         "required": [
@@ -287,7 +320,7 @@
           "data": {
             "type": "array",
             "items": {
-              "type": "array"
+              "$ref": "#/components/schemas/AnimeReleaseItem"
             }
           },
           "meta": {
