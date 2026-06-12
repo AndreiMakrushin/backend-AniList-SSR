@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { AnimeService } from './anime.service';
 import { ApiTags, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { AnimeReleasesResponse } from './dto/anime-response.dto';
+import { AnimeReleasesResponse } from './types/anime.types';
 import { ReleasesQueryDto } from './dto/releases-query.dto';
 
 @ApiTags('Anime - сторонняя библиотека')

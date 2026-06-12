@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { AnimeReleasesResponse } from './dto/anime-response.dto';
+import { AnimeReleasesResponse } from './types/anime.types';
 
 @Injectable()
 export class AnimeService {

@@ -98,7 +98,7 @@ export interface AnimeMeta {
 }
 
 // Тип для всего ответа
-export interface AnimeReleasesResponse {
-  data: Anime[];
-  meta: AnimeMeta;
+export class AnimeReleasesResponse {
+  data!: Anime[];
+  meta!: AnimeMeta;
 }
