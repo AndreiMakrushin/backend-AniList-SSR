@@ -224,9 +224,317 @@
           "password"
         ]
       },
+      "AnimeValueType": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value",
+          "description"
+        ]
+      },
+      "AnimeName": {
+        "type": "object",
+        "properties": {
+          "main": {
+            "type": "string"
+          },
+          "english": {
+            "type": "string"
+          },
+          "alternative": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "main",
+          "english",
+          "alternative"
+        ]
+      },
+      "AnimeImage": {
+        "type": "object",
+        "properties": {
+          "preview": {
+            "type": "string"
+          },
+          "thumbnail": {
+            "type": "string"
+          },
+          "optimized": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "preview",
+          "thumbnail"
+        ]
+      },
+      "AnimeAgeRating": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "is_adult": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value",
+          "label",
+          "is_adult",
+          "description"
+        ]
+      },
+      "AnimePublishDay": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value",
+          "description"
+        ]
+      },
+      "AnimeGenre": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "image": {
+            "$ref": "#/components/schemas/AnimeImage"
+          },
+          "total_releases": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "image",
+          "total_releases"
+        ]
+      },
+      "Anime": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AnimeValueType"
+          },
+          "year": {
+            "type": "number"
+          },
+          "name": {
+            "$ref": "#/components/schemas/AnimeName"
+          },
+          "alias": {
+            "type": "string"
+          },
+          "season": {
+            "$ref": "#/components/schemas/AnimeValueType"
+          },
+          "poster": {
+            "$ref": "#/components/schemas/AnimeImage"
+          },
+          "fresh_at": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "is_ongoing": {
+            "type": "boolean"
+          },
+          "age_rating": {
+            "$ref": "#/components/schemas/AnimeAgeRating"
+          },
+          "publish_day": {
+            "$ref": "#/components/schemas/AnimePublishDay"
+          },
+          "description": {
+            "type": "string"
+          },
+          "notification": {
+            "type": "string"
+          },
+          "episodes_total": {
+            "type": "number"
+          },
+          "external_player": {
+            "type": "string"
+          },
+          "is_in_production": {
+            "type": "boolean"
+          },
+          "is_blocked_by_geo": {
+            "type": "boolean"
+          },
+          "is_blocked_by_copyrights": {
+            "type": "boolean"
+          },
+          "added_in_users_favorites": {
+            "type": "number"
+          },
+          "average_duration_of_episode": {
+            "type": "number"
+          },
+          "added_in_planned_collection": {
+            "type": "number"
+          },
+          "added_in_watched_collection": {
+            "type": "number"
+          },
+          "added_in_watching_collection": {
+            "type": "number"
+          },
+          "added_in_postponed_collection": {
+            "type": "number"
+          },
+          "added_in_abandoned_collection": {
+            "type": "number"
+          },
+          "genres": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnimeGenre"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "year",
+          "name",
+          "alias",
+          "season",
+          "poster",
+          "fresh_at",
+          "created_at",
+          "updated_at",
+          "is_ongoing",
+          "age_rating",
+          "publish_day",
+          "description",
+          "notification",
+          "episodes_total",
+          "external_player",
+          "is_in_production",
+          "is_blocked_by_geo",
+          "is_blocked_by_copyrights",
+          "added_in_users_favorites",
+          "average_duration_of_episode",
+          "added_in_planned_collection",
+          "added_in_watched_collection",
+          "added_in_watching_collection",
+          "added_in_postponed_collection",
+          "added_in_abandoned_collection",
+          "genres"
+        ]
+      },
+      "PaginationLinks": {
+        "type": "object",
+        "properties": {
+          "previous": {
+            "type": "object",
+            "nullable": true
+          },
+          "next": {
+            "type": "object",
+            "nullable": true
+          }
+        },
+        "required": [
+          "previous",
+          "next"
+        ]
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number"
+          },
+          "count": {
+            "type": "number"
+          },
+          "per_page": {
+            "type": "number"
+          },
+          "current_page": {
+            "type": "number"
+          },
+          "total_pages": {
+            "type": "number"
+          },
+          "links": {
+            "$ref": "#/components/schemas/PaginationLinks"
+          }
+        },
+        "required": [
+          "total",
+          "count",
+          "per_page",
+          "current_page",
+          "total_pages",
+          "links"
+        ]
+      },
+      "AnimeMeta": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "required": [
+          "pagination"
+        ]
+      },
       "AnimeReleasesResponse": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Anime"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/AnimeMeta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
       }
     }
   }
