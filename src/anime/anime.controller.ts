@@ -1,7 +1,7 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, BadRequestException } from '@nestjs/common';
 import { AnimeService } from './anime.service';
 import { ApiTags, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { AnimeReleasesResponse } from './dto/anime-response.dto';
+import { AnimeReleasesResponse, AnimeResponse } from './dto/anime-response.dto';
 import { ReleasesQueryDto } from './dto/releases-query.dto';
 
 @ApiTags('Anime - сторонняя библиотека')
@@ -34,10 +34,35 @@ export class AnimeController {
     return this.animeService.getReleases(page, limit, genresArray);
   }
 
-  @Get('search')
-  @ApiOperation({ summary: 'Поиск аниме' })
-  @ApiQuery({ name: 'q', required: true, description: 'Поисковый запрос' })
-  async search(@Query('q') query: string) {
-    return this.animeService.searchAnime(query);
+  @Get('search-by-name')
+  @ApiOperation({ summary: 'Поиск аниме по названию' })
+  @ApiResponse({ status: 200, type: AnimeReleasesResponse })
+  @ApiQuery({
+    name: 'animeName',
+    required: true,
+    description: 'Название аниме для поиска',
+  })
+  async searchByName(
+    @Query('animeName') animeName: string,
+  ): Promise<AnimeReleasesResponse> {
+    if (!animeName) {
+      throw new BadRequestException('Необходимо указать animeName');
+    }
+    return this.animeService.searchAnimeByName(animeName);
+  }
+
+  @Get('search-by-id')
+  @ApiOperation({ summary: 'Поиск аниме по ID' })
+  @ApiResponse({ status: 200, type: AnimeResponse })
+  @ApiQuery({
+    name: 'id',
+    required: true,
+    description: 'ID аниме',
+  })
+  async searchById(@Query('id') id: number): Promise<AnimeResponse> {
+    if (!id) {
+      throw new BadRequestException('Необходимо указать id');
+    }
+    return this.animeService.searchAnimeById(id);
   }
 }

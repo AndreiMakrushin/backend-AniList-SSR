@@ -2,7 +2,8 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entity/user.entity';
-import { UserCreateDto } from './dto/user-create.dto';
+import { UserCreateDto } from '../auth/dto/user-create.dto';
+import { UserDto } from './dto/user-find.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -31,7 +32,7 @@ export class UserService {
     await this.usersRepository.save(user);
   }
 
-  async findAll(
+  /* async findAll(
     where: Partial<User> = {},
   ): Promise<Omit<User, 'password' | 'createdAt' | 'updatedAt'>[]> {
     const users = await this.usersRepository.find({ where });
@@ -44,18 +45,10 @@ export class UserService {
         isBanned: user.isBanned,
       };
     });
-  }
-  async findByFields(
-    where: Partial<User>,
-  ): Promise<Pick<User, 'id' | 'name' | 'email' | 'isBanned'>[]> {
-    const users = await this.usersRepository.find({ where });
-
-    return users.map((user) => ({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      isBanned: user.isBanned,
-    }));
+  } */
+  async findByFields(where: Partial<UserDto>): Promise<UserDto | null> {
+    const user = await this.usersRepository.findOne({ where });
+    return user;
   }
 
   async findById(id: number): Promise<User | null> {

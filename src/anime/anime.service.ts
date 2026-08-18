@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { AnimeReleasesResponse } from './dto/anime-response.dto';
+import { AnimeReleasesResponse, AnimeResponse } from './dto/anime-response.dto';
 
 @Injectable()
 export class AnimeService {
@@ -26,12 +26,20 @@ export class AnimeService {
     return response.data;
   }
 
-  async searchAnime(query: string): Promise<AnimeReleasesResponse> {
+  async searchAnimeByName(animeName: string): Promise<AnimeReleasesResponse> {
     const response = await firstValueFrom(
-      this.httpService.get<AnimeReleasesResponse>('/app/search/releases', {
-        params: { query },
+      this.httpService.get<AnimeReleasesResponse>('/anime/catalog/releases', {
+        params: { query: animeName },
       }),
     );
+    return response.data;
+  }
+
+  async searchAnimeById(id: number): Promise<AnimeResponse> {
+    const response = await firstValueFrom(
+      this.httpService.get<AnimeResponse>(`/anime/releases/${id}`),
+    );
+
     return response.data;
   }
 }

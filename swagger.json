@@ -9,9 +9,9 @@
             "name": "email",
             "required": false,
             "in": "query",
-            "description": "Email",
+            "description": "Email пользователя",
             "schema": {
-              "example": "",
+              "example": "user@example.com",
               "type": "string"
             }
           },
@@ -21,14 +21,21 @@
             "in": "query",
             "description": "ID пользователя",
             "schema": {
-              "example": null,
+              "example": 1,
               "type": "number"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -76,7 +83,14 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserLoginResponseDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -137,15 +151,15 @@
         ]
       }
     },
-    "/anime/search": {
+    "/anime/search-by-name": {
       "get": {
-        "operationId": "AnimeController_search",
+        "operationId": "AnimeController_searchByName",
         "parameters": [
           {
-            "name": "q",
+            "name": "animeName",
             "required": true,
             "in": "query",
-            "description": "Поисковый запрос",
+            "description": "Название аниме для поиска",
             "schema": {
               "type": "string"
             }
@@ -153,10 +167,49 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnimeReleasesResponse"
+                }
+              }
+            }
           }
         },
-        "summary": "Поиск аниме",
+        "summary": "Поиск аниме по названию",
+        "tags": [
+          "Anime - сторонняя библиотека"
+        ]
+      }
+    },
+    "/anime/search-by-id": {
+      "get": {
+        "operationId": "AnimeController_searchById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "query",
+            "description": "ID аниме",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnimeResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Поиск аниме по ID",
         "tags": [
           "Anime - сторонняя библиотека"
         ]
@@ -180,6 +233,31 @@
       }
     },
     "schemas": {
+      "UserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Иван Иванов"
+          },
+          "email": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "isBanned": {
+            "type": "boolean",
+            "example": false
+          },
+          "avatar": {
+            "type": "string",
+            "example": "https://i.pravatar.cc/300"
+          }
+        }
+      },
       "UserCreateDto": {
         "type": "object",
         "properties": {
@@ -222,6 +300,18 @@
         "required": [
           "email",
           "password"
+        ]
+      },
+      "UserLoginResponseDto": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "example": "access_token"
+          }
+        },
+        "required": [
+          "access_token"
         ]
       },
       "AnimeValueType": {
@@ -534,6 +624,17 @@
         "required": [
           "data",
           "meta"
+        ]
+      },
+      "AnimeResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Anime"
+          }
+        },
+        "required": [
+          "data"
         ]
       }
     }

@@ -200,3 +200,8 @@ export class AnimeReleasesResponse {
   @ApiProperty({ type: AnimeMeta })
   meta!: AnimeMeta;
 }
+
+export class AnimeResponse {
+  @ApiProperty({ type: Anime })
+  data!: Anime;
+}

@@ -22,9 +22,20 @@ export class User {
   @Column({ default: false })
   isBanned!: boolean;
 
+  @Column({ nullable: true })
+  avatar?: string;
+
   @CreateDateColumn()
   createdAt!: Date;
 
   @UpdateDateColumn()
   updatedAt!: Date;
 }
+
+export type IUser = {
+  id: number;
+  name: string;
+  email: string;
+  isBanned: boolean;
+  avatar?: string;
+};

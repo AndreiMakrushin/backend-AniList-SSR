@@ -1,8 +1,9 @@
 import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
-import { UserCreateDto } from '../user/dto/user-create.dto';
-import { UserLoginDto } from './dto/user-login.dto';
+import { UserCreateDto } from './dto/user-create.dto';
+import { UserLoginDto, UserLoginResponseDto } from './dto/user-login.dto';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -18,6 +19,7 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
+  @ApiResponse({ status: 200, type: UserLoginResponseDto })
   async login(@Body() loginDto: UserLoginDto) {
     return this.authService.login(loginDto.email, loginDto.password);
   }
